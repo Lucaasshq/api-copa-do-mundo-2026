@@ -1,0 +1,360 @@
+### Variáveis globais
+@base = http://localhost:8000/copa2026_api
+@contentType = application/json
+
+##################################################
+### GRUPOS
+##################################################
+
+### Criar Grupo A
+POST {{base}}/grupos/
+Content-Type: {{contentType}}
+
+{
+    "nome": "A",
+    "descricao": "Grupo da morte"
+}
+
+###
+
+### Criar Grupo B
+POST {{base}}/grupos/
+Content-Type: {{contentType}}
+
+{
+    "nome": "B",
+    "descricao": "Grupo equilibrado"
+}
+
+###
+
+### Listar grupos
+GET {{base}}/grupos/
+Accept: application/json
+
+###
+
+### Buscar classificação do Grupo A
+GET {{base}}/grupos/1/classificacao/
+Accept: application/json
+
+###
+
+##################################################
+### TECNICOS
+##################################################
+
+### Criar técnico Dorival
+POST {{base}}/tecnicos/
+Content-Type: {{contentType}}
+
+{
+    "nome": "Dorival Junior",
+    "nacionalidade": "Brasileiro",
+    "data_nascimento": "1962-04-25"
+}
+
+###
+
+### Criar técnico Scaloni
+POST {{base}}/tecnicos/
+Content-Type: {{contentType}}
+
+{
+    "nome": "Lionel Scaloni",
+    "nacionalidade": "Argentino",
+    "data_nascimento": "1978-05-16"
+}
+
+###
+
+### Listar técnicos
+GET {{base}}/tecnicos/
+Accept: application/json
+
+###
+
+### Buscar técnico por nome
+GET {{base}}/tecnicos/?search=Scaloni
+Accept: application/json
+
+###
+
+##################################################
+### SELECOES
+##################################################
+
+### Criar Brasil
+POST {{base}}/selecoes/
+Content-Type: {{contentType}}
+
+{
+    "nome": "Brasil",
+    "sigla": "BRA",
+    "confederacao": "CONMEBOL",
+    "grupo": 1,
+    "tecnico": 1,
+    "escudo_url": "https://exemplo.com/brasil.png"
+}
+
+###
+
+### Criar Argentina
+POST {{base}}/selecoes/
+Content-Type: {{contentType}}
+
+{
+    "nome": "Argentina",
+    "sigla": "ARG",
+    "confederacao": "CONMEBOL",
+    "grupo": 1,
+    "tecnico": 2,
+    "escudo_url": "https://exemplo.com/argentina.png"
+}
+
+###
+
+### Listar seleções
+GET {{base}}/selecoes/
+Accept: application/json
+
+###
+
+### Filtrar seleções por grupo
+GET {{base}}/selecoes/?grupo=1
+Accept: application/json
+
+###
+
+### Buscar seleção por nome
+GET {{base}}/selecoes/?search=Brasil
+Accept: application/json
+
+###
+
+##################################################
+### JOGADORES
+##################################################
+
+### Criar jogador Vinicius Jr
+POST {{base}}/jogadores/
+Content-Type: {{contentType}}
+
+{
+    "nome": "Vinicius Jose Paixao de Oliveira Junior",
+    "nome_guerra": "Vini Jr",
+    "selecao": 1,
+    "posicao": "ATACANTE",
+    "numero_camisa": 7,
+    "data_nascimento": "2000-07-12",
+    "suspenso": false
+}
+
+###
+
+### Criar jogador Messi
+POST {{base}}/jogadores/
+Content-Type: {{contentType}}
+
+{
+    "nome": "Lionel Andres Messi",
+    "nome_guerra": "Messi",
+    "selecao": 2,
+    "posicao": "ATACANTE",
+    "numero_camisa": 10,
+    "data_nascimento": "1987-06-24",
+    "suspenso": false
+}
+
+###
+
+### Listar jogadores
+GET {{base}}/jogadores/
+Accept: application/json
+
+###
+
+### Buscar jogador por nome
+GET {{base}}/jogadores/?search=Messi
+Accept: application/json
+
+###
+
+### Filtrar jogadores por seleção
+GET {{base}}/jogadores/?selecao=1
+Accept: application/json
+
+###
+
+### Listar jogadores suspensos
+GET {{base}}/jogadores/suspensos/
+Accept: application/json
+
+###
+
+##################################################
+### JOGOS
+##################################################
+
+### Criar jogo Brasil x Argentina
+POST {{base}}/jogos/
+Content-Type: {{contentType}}
+
+{
+    "selecao_mandante": 1,
+    "selecao_visitante": 2,
+    "fase": "GRUPOS",
+    "grupo": 1,
+    "data_hora": "2026-06-15T21:00:00Z",
+    "estadio": "Maracana",
+    "cidade": "Rio de Janeiro",
+    "gols_mandante": 0,
+    "gols_visitante": 0,
+    "status": "AGENDADO"
+}
+
+###
+
+##################################################
+### JOGO COM EVENTOS ANINHADOS
+##################################################
+
+### Criar jogo com eventos aninhados
+POST {{base}}/jogos/
+Content-Type: {{contentType}}
+
+{
+    "selecao_mandante": 1,
+    "selecao_visitante": 2,
+    "fase": "GRUPOS",
+    "grupo": 1,
+    "data_hora": "2026-06-20T20:00:00Z",
+    "estadio": "Arena Final",
+    "cidade": "Sao Paulo",
+    "gols_mandante": 0,
+    "gols_visitante": 0,
+    "status": "ENCERRADO",
+
+    "eventos": [
+        {
+            "jogador": 1,
+            "tipo": "GOL",
+            "minuto": 15,
+            "acrescimo": false
+        },
+        {
+            "jogador": 2,
+            "tipo": "CARTAO_AMARELO",
+            "minuto": 44,
+            "acrescimo": false
+        }
+    ]
+}
+
+###
+
+### Listar jogos
+GET {{base}}/jogos/
+Accept: application/json
+
+###
+
+### Filtrar jogos por fase
+GET {{base}}/jogos/?fase=GRUPOS
+Accept: application/json
+
+###
+
+### Ordenar jogos por data
+GET {{base}}/jogos/?ordering=data_hora
+Accept: application/json
+
+###
+
+### Atualizar status do jogo para encerrado
+PATCH {{base}}/jogos/1/
+Content-Type: {{contentType}}
+
+{
+    "status": "ENCERRADO"
+}
+
+###
+
+### Buscar estatísticas do jogo
+GET {{base}}/jogos/1/estatisticas/
+Accept: application/json
+
+###
+
+### Avançar fase
+POST {{base}}/jogos/avancar-fase/
+Content-Type: {{contentType}}
+
+{}
+
+###
+
+##################################################
+### EVENTOS DE JOGO
+##################################################
+
+### Registrar gol do Brasil
+POST {{base}}/eventos-jogo/
+Content-Type: {{contentType}}
+
+{
+    "jogo": 1,
+    "jogador": 1,
+    "tipo": "GOL",
+    "minuto": 25,
+    "acrescimo": false
+}
+
+###
+
+### Registrar cartão amarelo
+POST {{base}}/eventos-jogo/
+Content-Type: {{contentType}}
+
+{
+    "jogo": 1,
+    "jogador": 2,
+    "tipo": "CARTAO_AMARELO",
+    "minuto": 48,
+    "acrescimo": false
+}
+
+###
+
+### Registrar cartão vermelho
+POST {{base}}/eventos-jogo/
+Content-Type: {{contentType}}
+
+{
+    "jogo": 1,
+    "jogador": 2,
+    "tipo": "CARTAO_VERMELHO",
+    "minuto": 79,
+    "acrescimo": false
+}
+
+###
+
+### Listar eventos
+GET {{base}}/eventos-jogo/
+Accept: application/json
+
+###
+
+### Filtrar eventos por tipo
+GET {{base}}/eventos-jogo/?tipo=GOL
+Accept: application/json
+
+###
+
+### Filtrar eventos por jogador
+GET {{base}}/eventos-jogo/?jogador=1
+Accept: application/json
+
+###
