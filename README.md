@@ -1,4 +1,4 @@
-# API-Copa-do-Mundo-2026 - Guia de Instalação e Execução do Projeto Django Rest Framework
+#Guia de Instalação e Execução do Projeto Django Rest Framework
 
 ## Criação do ambiente virtual
 
